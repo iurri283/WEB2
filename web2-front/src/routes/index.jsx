@@ -1,10 +1,10 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ProtectedRoute } from "./protectedRoute";
-import CefetMoney from "../Pages/CefetMoney";
-import Sobre from "../Pages/Sobre";
-import Login from "../Pages/Login";
-import Cadastro from "../Pages/Cadastro";
-import Home from "../Pages/Home";
+import CefetMoney from "../pages/CefetMoney";
+import Sobre from "../pages/Sobre";
+import Login from "../pages/Login";
+import Cadastro from "../pages/Cadastro";
+import Home from "../pages/Home";
 
 export function MyRouter() {
   return (
