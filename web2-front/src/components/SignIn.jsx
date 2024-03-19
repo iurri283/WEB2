@@ -11,6 +11,8 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import { Link } from "react-router-dom";
+import { InputCpf } from "./Mascaras";
+import { useState } from "react";
 
 function Copyright(props) {
   return (
@@ -18,6 +20,7 @@ function Copyright(props) {
       variant="body2"
       color="text.secondary"
       align="center"
+      pb={3}
       {...props}
     >
       {"Copyright © "}
@@ -35,13 +38,12 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
+  const [cpf, setCpf] = useState("");
+  const [senha, setSenha] = useState("");
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    console.log("cpf: ", cpf, "senha: ", senha);
   };
 
   return (
@@ -49,7 +51,10 @@ export default function SignIn() {
       <Container
         component="main"
         maxWidth="xs"
-        style={{ backgroundColor: "white", borderRadius: "16px" }}
+        style={{
+          backgroundColor: "white",
+          borderRadius: "16px",
+        }}
       >
         <CssBaseline />
         <Box
@@ -72,16 +77,7 @@ export default function SignIn() {
             noValidate
             sx={{ mt: 1 }}
           >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="cpf"
-              label="CPF"
-              name="cpf"
-              autoComplete="cpf"
-              autoFocus
-            />
+            <InputCpf value={cpf} onChange={(e) => setCpf(e.target.value)} />
             <TextField
               margin="normal"
               required
@@ -91,6 +87,7 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={(e) => setSenha(e.target.value)}
             />
             <Button
               type="submit"

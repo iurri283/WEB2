@@ -16,7 +16,11 @@ export default function Header() {
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <Link to="/">
-              <img src={Logo} alt="" />
+              <img
+                src={Logo}
+                alt=""
+                style={{ height: "32px", width: "32px" }}
+              />
             </Link>
           </Typography>
 

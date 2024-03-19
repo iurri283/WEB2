@@ -9,6 +9,9 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { InputCpf } from "./Mascaras";
+import { useState } from "react";
+// import { useState } from "react";
 
 function Copyright(props) {
   return (
@@ -16,6 +19,7 @@ function Copyright(props) {
       variant="body2"
       color="text.secondary"
       align="center"
+      pb={3}
       {...props}
     >
       {"Copyright © "}
@@ -33,13 +37,32 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+  const [usuario, setUsuario] = useState({
+    nome: "",
+    cpf: "",
+    email: "",
+    senha: "",
+  });
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
+
+    // Obtendo os valores do formulário
+    const nome = data.get("nome");
+    const cpf = data.get("cpf");
+    const email = data.get("email");
+    const senha = data.get("senha");
+
+    // Atualizando o estado do usuário com os novos valores
+    setUsuario({
+      nome: nome,
+      cpf: cpf,
+      email: email,
+      senha: senha,
     });
+
+    console.log(usuario);
   };
 
   return (
@@ -71,46 +94,49 @@ export default function SignUp() {
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={12}>
                 <TextField
                   autoComplete="given-name"
-                  name="firstName"
+                  name="nome"
                   required
                   fullWidth
-                  id="firstName"
-                  label="Primeiro Nome"
+                  id="nome"
+                  label="Nome Completo"
                   autoFocus
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={12}>
                 <TextField
+                  autoComplete="given-name"
+                  name="email"
                   required
                   fullWidth
-                  id="lastName"
-                  label="Sobrenome"
-                  name="lastName"
-                  autoComplete="family-name"
+                  id="email"
+                  label="Email"
+                  autoFocus
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
+                <InputCpf
+                  autoComplete="given-name"
+                  name="cpf"
                   required
                   fullWidth
                   id="cpf"
                   label="CPF"
-                  name="cpf"
-                  autoComplete="cpf"
+                  autoFocus
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  name="password"
-                  label="Sennha"
+                  name="senha"
+                  label="Senha"
                   type="password"
-                  id="password"
+                  id="senha"
                   autoComplete="new-password"
+                  // onChange={(e) => setSenha(e.target.value)}
                 />
               </Grid>
             </Grid>
