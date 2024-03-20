@@ -38,12 +38,22 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-  const [cpf, setCpf] = useState("");
-  const [senha, setSenha] = useState("");
+  const [usuario, setUsuario] = useState({
+    cpf: "",
+    senha: "",
+  });
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("cpf: ", cpf, "senha: ", senha);
+    const data = new FormData(event.currentTarget);
+
+    // Atualizando o estado do usuário com os novos valores
+    setUsuario({
+      cpf: data.get("cpf"),
+      senha: data.get("senha"),
+    });
+
+    console.log(usuario);
   };
 
   return (
@@ -77,17 +87,25 @@ export default function SignIn() {
             noValidate
             sx={{ mt: 1 }}
           >
-            <InputCpf value={cpf} onChange={(e) => setCpf(e.target.value)} />
+            <InputCpf
+              autoComplete="given-name"
+              name="cpf"
+              required
+              fullWidth
+              id="cpf"
+              label="CPF"
+              autoFocus
+            />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="password"
+              name="senha"
               label="Senha"
               type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange={(e) => setSenha(e.target.value)}
+              id="senha"
+              autoComplete="new-password"
+              // onChange={(e) => setSenha(e.target.value)}
             />
             <Button
               type="submit"

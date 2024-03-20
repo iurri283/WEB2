@@ -48,18 +48,12 @@ export default function SignUp() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    // Obtendo os valores do formulário
-    const nome = data.get("nome");
-    const cpf = data.get("cpf");
-    const email = data.get("email");
-    const senha = data.get("senha");
-
     // Atualizando o estado do usuário com os novos valores
     setUsuario({
-      nome: nome,
-      cpf: cpf,
-      email: email,
-      senha: senha,
+      nome: data.get("nome"),
+      cpf: data.get("cpf"),
+      email: data.get("email"),
+      senha: data.get("senha"),
     });
 
     console.log(usuario);

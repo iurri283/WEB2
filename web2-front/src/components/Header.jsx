@@ -4,9 +4,6 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
-
-import "../styles/style.css";
-
 import Logo from "../assets/bitcoin-aceito.png";
 
 export default function Header() {
@@ -23,14 +20,13 @@ export default function Header() {
               />
             </Link>
           </Typography>
-
-          <Link to="/login">
-            <Button color="inherit" className="button-header">
+          <Link to="/login" style={{ padding: "2px" }}>
+            <Button color="inherit" variant="contained">
               Login
             </Button>
           </Link>
-          <Link to="/sobre">
-            <Button color="inherit" className="button-header">
+          <Link to="/sobre" style={{ padding: "2px" }}>
+            <Button color="inherit" variant="contained">
               Sobre
             </Button>
           </Link>
