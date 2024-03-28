@@ -12,7 +12,10 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import { Link } from "react-router-dom";
 import { InputCpf } from "./Mascaras";
-import { useState } from "react";
+import { api } from "../utils/api";
+import { useContext } from "react";
+import { AuthContext } from "../context/authContext";
+// import { useState } from "react";
 
 function Copyright(props) {
   return (
@@ -38,22 +41,21 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-  const [usuario, setUsuario] = useState({
-    cpf: "",
-    senha: "",
-  });
+  const { handleTokenLogin } = useContext(AuthContext);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    // Atualizando o estado do usuário com os novos valores
-    setUsuario({
-      cpf: data.get("cpf"),
-      senha: data.get("senha"),
-    });
+    let dados = { cpf: data.get("cpf"), senha: data.get("senha") };
 
-    console.log(usuario);
+    try {
+      const resposta = await api.post("login", dados);
+      console.log(resposta);
+      await handleTokenLogin(resposta.data.token, resposta.data.user.idUsuario);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (

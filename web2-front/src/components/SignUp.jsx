@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { InputCpf } from "./Mascaras";
-import { useState } from "react";
+import { api } from "../utils/api";
 // import { useState } from "react";
 
 function Copyright(props) {
@@ -37,26 +37,27 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const [usuario, setUsuario] = useState({
-    nome: "",
-    cpf: "",
-    email: "",
-    senha: "",
-  });
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    // Atualizando o estado do usuário com os novos valores
-    setUsuario({
+    const dados = {
       nome: data.get("nome"),
       cpf: data.get("cpf"),
       email: data.get("email"),
       senha: data.get("senha"),
-    });
+    };
 
-    console.log(usuario);
+    try {
+      const resposta = await api.post("cadastro", dados);
+      if (resposta.status == 200) {
+        console.log("deu bom");
+      } else {
+        console.log("Deu ruim");
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (

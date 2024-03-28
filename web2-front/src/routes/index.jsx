@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { ProtectedRoute } from "./protectedRoute";
+// import { ProtectedRoute } from "./protectedRoute";
 import CefetMoney from "../pages/CefetMoney";
 import Sobre from "../pages/Sobre";
 import Login from "../pages/Login";
@@ -15,14 +15,7 @@ export function MyRouter() {
           <Route path="/sobre" element={<Sobre />} />
           <Route path="/login" element={<Login />} />
           <Route path="/cadastro" element={<Cadastro />} />
-          <Route
-            path="/home"
-            element={
-              <ProtectedRoute user={true}>
-                <Home />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/home" element={<Home />} />
         </Routes>
       </Router>
     </>
