@@ -58,8 +58,10 @@ app.post("/login", async (req, res) => {
 
   user = response[0];
 
+  const senhaIguais = bcrypt.compare(senha, user.senhaUsuario);
+
   if (response.length > 0) {
-    if (senha === user.senhaUsuario) {
+    if (senhaIguais) {
       // Se a senha está correta, gerar o token JWT
       jwt.sign({ cpf }, privateKey, (err, token) => {
         if (err) {
@@ -81,12 +83,16 @@ app.post("/login", async (req, res) => {
 
 app.post("/cadastro", async (req, res) => {
   const { nome, cpf, email, senha } = req.body;
+  const agConta = "0407";
+
+  // console.log(nome, cpf, email, senha);
 
   const response = await executeQuery(
     "SELECT COUNT(*) as qtd FROM usuario WHERE cpfUsuario = ?",
     [cpf]
   );
 
+  // console.log("response: ", response[0]);
   const resposta = response[0];
 
   if (resposta.qtd > 0) {
@@ -95,7 +101,7 @@ app.post("/cadastro", async (req, res) => {
       .json({ titulo: "CPF inválido", mensagem: "CPF já cadastrado!" });
   }
 
-  console.log("email: ", email);
+  // console.log("email: ", email);
 
   const response2 = await executeQuery(
     "SELECT COUNT(*) as qtd FROM usuario WHERE emailUsuario = ?",
@@ -117,12 +123,42 @@ app.post("/cadastro", async (req, res) => {
   );
 
   if (result.affectedRows > 0) {
-    return res
-      .status(200)
-      .json({
-        titulo: "Usuario cadastrado",
-        mensagem: "Usuário cadastrado com sucesso!",
-      });
+    const idUsuario = await executeQuery(
+      "SELECT idUsuario FROM usuario WHERE cpfUsuario = ?",
+      [cpf]
+    );
+
+    console.log("id user: ", idUsuario);
+
+    let numeroExistente = true;
+    let numeroConta = "";
+
+    while (numeroExistente) {
+      const n1 = Math.floor(Math.random() * 99999999) + 1;
+      const n2 = Math.floor(Math.random() * 9) + 1;
+      numeroConta = `${n1}-${n2}`;
+
+      const sqlVerificarConta = await executeQuery(
+        "SELECT COUNT(*) as count FROM conta WHERE numeroConta = ?",
+        [numeroConta]
+      );
+
+      if (sqlVerificarConta[0].count == 0) {
+        numeroExistente = false;
+      }
+    }
+
+    const saldoConta = 0.0;
+
+    const response3 = await executeQuery(
+      "INSERT INTO conta (agConta, numeroConta, saldoConta, Usuario_Conta_idUsuario) VALUES (?, ?, ?, ?)",
+      [agConta, numeroConta, saldoConta, idUsuario[0].idUsuario]
+    );
+
+    return res.status(200).json({
+      titulo: "Usuário e Conta cadastrado",
+      mensagem: "Usuário e Conta cadastrados com sucesso!",
+    });
   }
 });
 

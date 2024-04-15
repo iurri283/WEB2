@@ -51,7 +51,7 @@ export default function SignUp() {
     try {
       const resposta = await api.post("cadastro", dados);
       if (resposta.status == 200) {
-        console.log("deu bom");
+        window.location.href = "/login";
       } else {
         console.log("Deu ruim");
       }

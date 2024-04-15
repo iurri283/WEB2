@@ -15,6 +15,8 @@ import { InputCpf } from "./Mascaras";
 import { api } from "../utils/api";
 import { useContext } from "react";
 import { AuthContext } from "../context/authContext";
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 // import { useState } from "react";
 
 function Copyright(props) {
@@ -43,6 +45,21 @@ const defaultTheme = createTheme();
 export default function SignIn() {
   const { handleTokenLogin } = useContext(AuthContext);
 
+  // const showToastMessage = () => {
+  //   console.log("toast: ", toast.success);
+  //   toast.success("Success Notification !", {
+  //     position: "top-right",
+  //     autoClose: 5000,
+  //     hideProgressBar: false,
+  //     closeOnClick: true,
+  //     pauseOnHover: true,
+  //     draggable: true,
+  //     progress: undefined,
+  //     theme: "light",
+  //     transition: "bounce",
+  //   });
+  // };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -51,7 +68,10 @@ export default function SignIn() {
 
     try {
       const resposta = await api.post("login", dados);
-      console.log(resposta);
+      // if (resposta.status == 200) {
+      //   showToastMessage();
+      // }
+      console.log("resposta: ", resposta);
       await handleTokenLogin(resposta.data.token, resposta.data.user.idUsuario);
     } catch (e) {
       console.log(e);
@@ -59,78 +79,82 @@ export default function SignIn() {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container
-        component="main"
-        maxWidth="xs"
-        style={{
-          backgroundColor: "white",
-          borderRadius: "16px",
-        }}
-      >
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+    <>
+      {/* <ToastContainer /> */}
+
+      <ThemeProvider theme={defaultTheme}>
+        <Container
+          component="main"
+          maxWidth="xs"
+          style={{
+            backgroundColor: "white",
+            borderRadius: "16px",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Login
-          </Typography>
+          <CssBaseline />
           <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
+            sx={{
+              marginTop: 8,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
           >
-            <InputCpf
-              autoComplete="given-name"
-              name="cpf"
-              required
-              fullWidth
-              id="cpf"
-              label="CPF"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="senha"
-              label="Senha"
-              type="password"
-              id="senha"
-              autoComplete="new-password"
-              // onChange={(e) => setSenha(e.target.value)}
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
+            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
               Login
-            </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link
-                  to="/cadastro"
-                  style={{ textDecoration: "none", color: "black" }}
-                >
-                  Cadastre-se
-                </Link>
+            </Typography>
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              noValidate
+              sx={{ mt: 1 }}
+            >
+              <InputCpf
+                autoComplete="given-name"
+                name="cpf"
+                required
+                fullWidth
+                id="cpf"
+                label="CPF"
+                autoFocus
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="senha"
+                label="Senha"
+                type="password"
+                id="senha"
+                autoComplete="new-password"
+                // onChange={(e) => setSenha(e.target.value)}
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Login
+              </Button>
+              <Grid container justifyContent="flex-end">
+                <Grid item>
+                  <Link
+                    to="/cadastro"
+                    style={{ textDecoration: "none", color: "black" }}
+                  >
+                    Cadastre-se
+                  </Link>
+                </Grid>
               </Grid>
-            </Grid>
+            </Box>
           </Box>
-        </Box>
-        <Copyright sx={{ mt: 2 }} />
-      </Container>
-    </ThemeProvider>
+          <Copyright sx={{ mt: 2 }} />
+        </Container>
+      </ThemeProvider>
+    </>
   );
 }

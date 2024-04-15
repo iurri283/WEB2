@@ -60,7 +60,7 @@ INDEX `fk_Acoes_Usuario1_idx` (`Usuario_Acoes_idUsuario` ASC),
 CONSTRAINT `fk_Acoes_Usuario1`
 FOREIGN KEY (`Usuario_Acoes_idUsuario`)
 REFERENCES `cefetMoney`.`Usuario` (`idUsuario`)
-ON DELETE NO ACTION
+ON DELETE CASCADE
 ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -82,7 +82,7 @@ INDEX `fk_Conta_Usuario1_idx` (`Usuario_Conta_idUsuario` ASC),
 CONSTRAINT `fk_Conta_Usuario1`
 FOREIGN KEY (`Usuario_Conta_idUsuario`)
 REFERENCES `cefetMoney`.`Usuario` (`idUsuario`)
-ON DELETE NO ACTION
+ON DELETE CASCADE
 ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
