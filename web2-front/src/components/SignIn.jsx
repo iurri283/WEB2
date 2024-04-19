@@ -13,7 +13,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 import { InputCpf } from "./Mascaras";
 import { api } from "../utils/api";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/authContext";
 // import { ToastContainer, toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
@@ -41,9 +41,11 @@ function Copyright(props) {
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
+let resposta = null;
 
 export default function SignIn() {
   const { handleTokenLogin } = useContext(AuthContext);
+  const [reloadPage, setReloadPage] = useState(false);
 
   // const showToastMessage = () => {
   //   console.log("toast: ", toast.success);
@@ -67,16 +69,21 @@ export default function SignIn() {
     let dados = { cpf: data.get("cpf"), senha: data.get("senha") };
 
     try {
-      const resposta = await api.post("login", dados);
-      // if (resposta.status == 200) {
-      //   showToastMessage();
-      // }
-      console.log("resposta: ", resposta);
-      await handleTokenLogin(resposta.data.token, resposta.data.user.idUsuario);
+      resposta = await api.post("login", dados);
+      if (resposta.status == 200) {
+        await handleTokenLogin();
+        setReloadPage(true);
+      }
     } catch (e) {
       console.log(e);
     }
   };
+
+  useEffect(() => {
+    if (reloadPage) {
+      window.location.reload();
+    }
+  }, [reloadPage]);
 
   return (
     <>

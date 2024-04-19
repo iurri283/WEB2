@@ -12,6 +12,10 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../context/authContext";
 import { Link } from "react-router-dom";
 
+const textColor = "white";
+const iconColor = "white";
+const dividerColor = "white";
+
 export default function SideMenu() {
   const { clearToken } = useContext(AuthContext);
   const [menuUser, setMenuUser] = useState(null);
@@ -28,18 +32,29 @@ export default function SideMenu() {
     console.log("excluir conta");
   };
 
+  const handleSignOut = () => {
+    clearToken();
+    window.location.href = "/login";
+  };
+
   return (
     <Drawer
       variant="permanent"
+      anchor="left"
       sx={{
         flexShrink: 0,
+        width: "240px",
         "& .MuiDrawer-paper": {
           boxSizing: "border-box",
-          bgcolor: "primary.main",
+          bgcolor: "#008C9E",
+          width: "240px",
+          overflowX: "hidden",
+          borderRightWidth: "5px",
+          borderColor: dividerColor,
         },
       }}
     >
-      <Box sx={{ width: 250 }} role="presentation">
+      <Box sx={{ width: 240 }} role="presentation">
         <div
           style={{
             display: "flex",
@@ -48,11 +63,12 @@ export default function SideMenu() {
             alignItems: "center",
           }}
         >
-          <h1>CEFET MONEY</h1>
+          <h1 style={{ color: "white" }}>CEFET MONEY</h1>
           <Divider
             sx={{
               borderBottomWidth: 5,
               width: "90%",
+              borderColor: dividerColor,
             }}
           />
         </div>
@@ -60,34 +76,40 @@ export default function SideMenu() {
         <List>
           <ListItem key={"Transferir"} disablePadding>
             <ListItemButton>
-              <ListItemIcon>
+              <ListItemIcon sx={{ color: iconColor }}>
                 <GiPayMoney size={32} />
               </ListItemIcon>
-              <ListItemText primary={"Transferir"} />
+              <ListItemText primary={"Transferir"} sx={{ color: textColor }} />
             </ListItemButton>
           </ListItem>
 
           <ListItem key={"Saque"} disablePadding>
             <ListItemButton>
-              <ListItemIcon>
+              <ListItemIcon sx={{ color: iconColor }}>
                 <GiReceiveMoney size={32} />
               </ListItemIcon>
-              <ListItemText primary={"Saque"} />
+              <ListItemText primary={"Saque"} sx={{ color: textColor }} />
             </ListItemButton>
           </ListItem>
 
           <ListItem key={"Depósito"} disablePadding>
             <ListItemButton>
-              <ListItemIcon>
+              <ListItemIcon sx={{ color: iconColor }}>
                 <GiMoneyStack size={32} />
               </ListItemIcon>
-              <ListItemText primary={"Depósito"} />
+              <ListItemText primary={"Depósito"} sx={{ color: textColor }} />
             </ListItemButton>
           </ListItem>
         </List>
         <div style={{ bottom: 0, position: "absolute", width: "100%" }}>
           <Box sx={{ flexGrow: 0 }}>
-            <Divider />
+            <Divider
+              sx={{
+                borderBottomWidth: 3,
+                width: "90%",
+                borderColor: dividerColor,
+              }}
+            />
             <Tooltip title="Open settings">
               <Button
                 onClick={handleOpenUserMenu}
@@ -116,7 +138,7 @@ export default function SideMenu() {
                 <MenuItem>Dados Pessoais</MenuItem>
               </Link>
               <MenuItem onClick={handleExcluirConta}>Excluir Conta</MenuItem>
-              <MenuItem onClick={clearToken}>Sign Out</MenuItem>
+              <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
             </Menu>
           </Box>
         </div>
