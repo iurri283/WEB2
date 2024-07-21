@@ -7,10 +7,14 @@
     font-family: 'Poppins', sans-serif;
 }
 
-body{
+html {
+    scroll-behavior: smooth;
+}
+
+/* body{
     background: url('../assets/background.jpg') no-repeat; 
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-}
+} */
 

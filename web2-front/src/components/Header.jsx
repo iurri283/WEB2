@@ -8,8 +8,8 @@ import Logo from "../assets/bitcoin-aceito.png";
 
 export default function Header() {
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+    <Box sx={{ flexGrow: 1, bgcolor: "#008C9E" }}>
+      <AppBar position="static" sx={{ bgcolor: "#008C9E" }}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <Link to="/">
@@ -21,13 +21,18 @@ export default function Header() {
             </Link>
           </Typography>
           <Link to="/login" style={{ padding: "2px" }}>
-            <Button color="inherit" variant="contained">
+            <Button
+              variant="contained"
+              sx={{
+                bgcolor: "white",
+                color: "black",
+                "&:hover": {
+                  bgcolor: "#008C9E",
+                  color: "white",
+                },
+              }}
+            >
               Login
-            </Button>
-          </Link>
-          <Link to="/sobre" style={{ padding: "2px" }}>
-            <Button color="inherit" variant="contained">
-              Sobre
             </Button>
           </Link>
         </Toolbar>
