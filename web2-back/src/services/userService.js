@@ -1,3 +1,9 @@
+/**
+ * Aqui contem a lógica de negócio da aplicação
+ * É responsável por processar dados e aplicar regras de negócio antes de interagir
+ * com a camada de modelo
+ */
+
 const { response } = require("express");
 const {
   getUserByCPF,

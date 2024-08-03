@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 import Container from "@mui/material/Container";
-import Typography from "../components/Typography";
+import Typography from "../componentsCefetMoney/Typography";
 
 import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
 import InstagramIcon from "@mui/icons-material/Instagram";

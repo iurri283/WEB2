@@ -1,3 +1,7 @@
+/**
+ * Camada responsável pela interação direta com o banco de dados
+ * Representa as entidades da aplicação e é responsável pelo CRUD
+ */
 const createConnection = require("../config/db");
 
 const executeQuery = async (sql, params = []) => {

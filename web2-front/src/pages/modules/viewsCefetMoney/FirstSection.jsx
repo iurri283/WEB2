@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import Button from "../components/Button";
-import Typography from "../components/Typography";
+import Button from "../componentsCefetMoney/Button";
+import Typography from "../componentsCefetMoney/Typography";
 import FirstSectionLayout from "./FirstSectionLayout";
 
 export default function FirstSection() {

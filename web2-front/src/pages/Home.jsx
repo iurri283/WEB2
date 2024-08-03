@@ -1,5 +1,4 @@
 import { Navigate } from "react-router-dom";
-import SideMenu from "../components/SideMenu";
 import {
   AppBar,
   Box,
@@ -9,8 +8,6 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-// import { ToastContainer, toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
 
 const drawerWidth = 240;
 
@@ -19,7 +16,6 @@ export default function Home() {
 
   return (
     <>
-      {/* <ToastContainer /> */}
       {token ? (
         <Box
           sx={{
@@ -44,12 +40,13 @@ export default function Home() {
               </Typography>
             </Toolbar>
           </AppBar>
-          <SideMenu />
 
           <Box
             component="main"
-            sx={{ flexGrow: 1, bgcolor: "#008C9E", p: 3 }}
-            style={{
+            sx={{
+              flexGrow: 1,
+              bgcolor: "#008C9E",
+              width: `calc(100% - ${drawerWidth}px)`,
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -86,16 +83,16 @@ export default function Home() {
                     variant="standard"
                     autoFocus
                     sx={{
-                      color: "#008C9E", // Cor do texto
+                      color: "#008C9E",
                       "& .MuiOutlinedInput-root": {
                         "& fieldset": {
-                          borderColor: "#008C9E", // Cor da borda
+                          borderColor: "#008C9E",
                         },
                         "&:hover fieldset": {
-                          borderColor: "#008C9E", // Cor da borda ao passar o mouse
+                          borderColor: "#008C9E",
                         },
                         "&.Mui-focused fieldset": {
-                          borderColor: "#008C9E", // Cor da borda quando focado
+                          borderColor: "#008C9E",
                         },
                       },
                     }}

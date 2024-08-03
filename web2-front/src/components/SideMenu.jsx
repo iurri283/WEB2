@@ -8,17 +8,22 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { GiMoneyStack, GiPayMoney, GiReceiveMoney } from "react-icons/gi";
 import { Button, Menu, MenuItem, Tooltip } from "@mui/material";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/authContext";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { api } from "../utils/api";
 
 const textColor = "white";
 const iconColor = "white";
 const dividerColor = "white";
 
 export default function SideMenu() {
+  const { pathname } = useLocation();
+  console.log(pathname);
   const { clearToken } = useContext(AuthContext);
   const [menuUser, setMenuUser] = useState(null);
+  const [name, setName] = useState("");
+  const token = localStorage.getItem("token");
 
   const handleOpenUserMenu = (event) => {
     setMenuUser(event.currentTarget);
@@ -36,6 +41,22 @@ export default function SideMenu() {
     clearToken();
     window.location.href = "/login";
   };
+
+  const handleGetUser = async () => {
+    try {
+      const resposta = await api.get(`user/info`);
+      console.log(resposta);
+      setName(resposta?.data?.nomeUsuario);
+    } catch (error) {
+      console.error("Erro ao obter dados do crítico:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      handleGetUser();
+    }
+  }, [token]);
 
   return (
     <Drawer
@@ -63,7 +84,10 @@ export default function SideMenu() {
             alignItems: "center",
           }}
         >
-          <h1 style={{ color: "white" }}>CEFET MONEY</h1>
+          <Button component={Link} to="/home">
+            <h1 style={{ color: "white" }}>CEFET MONEY</h1>
+          </Button>
+
           <Divider
             sx={{
               borderBottomWidth: 5,
@@ -75,7 +99,11 @@ export default function SideMenu() {
 
         <List>
           <ListItem key={"Transferir"} disablePadding>
-            <ListItemButton>
+            <ListItemButton
+              component={Link}
+              to="/transferencia"
+              selected={pathname === "/transferencia"}
+            >
               <ListItemIcon sx={{ color: iconColor }}>
                 <GiPayMoney size={32} />
               </ListItemIcon>
@@ -84,7 +112,11 @@ export default function SideMenu() {
           </ListItem>
 
           <ListItem key={"Saque"} disablePadding>
-            <ListItemButton>
+            <ListItemButton
+              component={Link}
+              to="/saque"
+              selected={pathname === "/saque"}
+            >
               <ListItemIcon sx={{ color: iconColor }}>
                 <GiReceiveMoney size={32} />
               </ListItemIcon>
@@ -93,7 +125,11 @@ export default function SideMenu() {
           </ListItem>
 
           <ListItem key={"Depósito"} disablePadding>
-            <ListItemButton>
+            <ListItemButton
+              component={Link}
+              to="/deposito"
+              selected={pathname === "/deposito"}
+            >
               <ListItemIcon sx={{ color: iconColor }}>
                 <GiMoneyStack size={32} />
               </ListItemIcon>
@@ -115,7 +151,7 @@ export default function SideMenu() {
                 onClick={handleOpenUserMenu}
                 style={{ p: 0, color: "white" }}
               >
-                Olá, user
+                Olá, {name.split(" ")[0]}
               </Button>
             </Tooltip>
             <Menu

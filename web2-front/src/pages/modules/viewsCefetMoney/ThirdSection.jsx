@@ -1,8 +1,8 @@
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
-import Button from "../components/Button";
-import Typography from "../components/Typography";
+import Button from "../componentsCefetMoney/Button";
+import Typography from "../componentsCefetMoney/Typography";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 
 const item = {

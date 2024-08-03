@@ -1,8 +1,8 @@
 import Header from "../components/Header";
-import AppFooter from "./modules/views/AppFooter";
-import FirstSection from "./modules/views/FirstSection";
-import SecondSection from "./modules/views/SecondSection";
-import ThirdSection from "./modules/views/ThirdSection";
+import AppFooter from "./modules/viewsCefetMoney/AppFooter";
+import FirstSection from "./modules/viewsCefetMoney/FirstSection";
+import SecondSection from "./modules/viewsCefetMoney/SecondSection";
+import ThirdSection from "./modules/viewsCefetMoney/ThirdSection";
 
 export default function CefetMoney() {
   return (
