@@ -10,6 +10,16 @@ import Transferencia from "../pages/Transferencia";
 import Saque from "../pages/Saque";
 import Deposito from "../pages/Deposito";
 
+// eslint-disable-next-line react/prop-types
+function Layout({ children }) {
+  return (
+    <div style={{ display: "flex" }}>
+      <SideMenu />
+      <div style={{ flexGrow: 1 }}>{children}</div>
+    </div>
+  );
+}
+
 export function MyRouter() {
   return (
     <>
@@ -18,11 +28,46 @@ export function MyRouter() {
           <Route path="/" element={<CefetMoney />} />
           <Route path="/login" element={<Login />} />
           <Route path="/cadastro" element={<Cadastro />} />
-          <Route path="/home/*" element={<HomeWithSideMenu />} />
-          <Route path="/transferencia" element={<HomeWithSideMenu />} />
-          <Route path="/saque" element={<HomeWithSideMenu />} />
-          <Route path="/deposito" element={<HomeWithSideMenu />} />
-          <Route path="/dadosPessoais" element={<HomeWithSideMenu />} />
+          <Route
+            path="/home"
+            element={
+              <Layout>
+                <Home />
+              </Layout>
+            }
+          />
+          <Route
+            path="/transferencia"
+            element={
+              <Layout>
+                <Transferencia />
+              </Layout>
+            }
+          />
+          <Route
+            path="/saque"
+            element={
+              <Layout>
+                <Saque />
+              </Layout>
+            }
+          />
+          <Route
+            path="/deposito"
+            element={
+              <Layout>
+                <Deposito />
+              </Layout>
+            }
+          />
+          <Route
+            path="/dadosPessoais"
+            element={
+              <Layout>
+                <PerfilUser />
+              </Layout>
+            }
+          />
         </Routes>
       </Router>
     </>
@@ -30,19 +75,19 @@ export function MyRouter() {
 }
 
 // Componente para incluir o SideMenu e conteúdo principal
-function HomeWithSideMenu() {
-  return (
-    <div style={{ display: "flex" }}>
-      <SideMenu />
-      <div style={{ flexGrow: 1 }}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="transferencia" element={<Transferencia />} />
-          <Route path="saque" element={<Saque />} />
-          <Route path="deposito" element={<Deposito />} />
-          <Route path="dadosPessoais" element={<PerfilUser />} />
-        </Routes>
-      </div>
-    </div>
-  );
-}
+// function HomeWithSideMenu() {
+//   return (
+//     <div style={{ display: "flex" }}>
+//       <SideMenu />
+//       <div style={{ flexGrow: 1 }}>
+//         <Routes>
+//           <Route path="/" element={<Home />} />
+//           <Route path="transferencia" element={<Transferencia />} />
+//           <Route path="saque" element={<Saque />} />
+//           <Route path="deposito" element={<Deposito />} />
+//           <Route path="dadosPessoais" element={<PerfilUser />} />
+//         </Routes>
+//       </div>
+//     </div>
+//   );
+// }

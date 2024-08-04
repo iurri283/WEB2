@@ -169,8 +169,7 @@ export default function SideMenu() {
               open={Boolean(menuUser)}
               onClose={handleCloseUserMenu}
             >
-              <MenuItem onClick={handleCloseUserMenu}>Dados da Conta</MenuItem>
-              <Link to="/perfil" style={{ color: "#242424" }}>
+              <Link to="/dadosPessoais" style={{ color: "#242424" }}>
                 <MenuItem>Dados Pessoais</MenuItem>
               </Link>
               <MenuItem onClick={handleExcluirConta}>Excluir Conta</MenuItem>

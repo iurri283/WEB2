@@ -75,11 +75,11 @@ export default function Home() {
                 <Grid item xs={12} sm={12} pr={2}>
                   <TextField
                     autoComplete="given-name"
-                    name="nome"
+                    name="agencia"
                     fullWidth
                     disabled
-                    id="nome"
-                    label="Nome Completo"
+                    id="agencia"
+                    label="Agência"
                     variant="standard"
                     autoFocus
                     sx={{
@@ -101,11 +101,11 @@ export default function Home() {
                 <Grid item xs={12} sm={12} pr={2}>
                   <TextField
                     autoComplete="given-name"
-                    name="email"
+                    name="numero"
                     fullWidth
                     disabled
-                    id="email"
-                    label="Email"
+                    id="numero"
+                    label="Número"
                     variant="standard"
                     autoFocus
                   />
@@ -114,12 +114,9 @@ export default function Home() {
                   <TextField
                     fullWidth
                     disabled
-                    name="senha"
-                    label="Senha"
+                    name="saldo"
+                    label="Saldo"
                     variant="standard"
-                    type="password"
-                    id="senha"
-                    autoComplete="new-password"
                   />
                 </Grid>
               </Grid>
