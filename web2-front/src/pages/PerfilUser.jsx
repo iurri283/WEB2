@@ -19,6 +19,7 @@ function PerfilUser() {
   const [address, setAddress] = useState({
     cidade: "",
     bairro: "",
+    rua: "",
     numero: "",
     complemento: "",
   });
@@ -33,6 +34,7 @@ function PerfilUser() {
         setAddress({
           cidade: data?.localidade || "",
           bairro: data?.bairro || "",
+          rua: data?.logradouro,
           numero: "",
           complemento: "",
         });
@@ -163,6 +165,15 @@ function PerfilUser() {
                 label="Bairro"
                 variant="standard"
                 value={address.bairro}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} pr={2} pb={2}>
+              <TextField
+                fullWidth
+                name="rua"
+                label="Rua"
+                variant="standard"
+                value={address.rua}
               />
             </Grid>
             <Grid item xs={12} sm={12} pr={2} pb={2}>
