@@ -66,8 +66,18 @@ function Saque() {
               bgcolor: "white",
               borderRadius: "10px",
               boxShadow: "5px 5px 3px 0px rgba(0, 0, 0, 0.75)",
+              justifyContent: "center",
             }}
           >
+            <h2 style={{ color: "#008C9E", fontSize: "2rem" }}>
+              Área de Saque
+            </h2>
+            <hr
+              style={{
+                width: "90%",
+                borderTop: "2px solid #008C9E",
+              }}
+            />
             <Grid item xs={12} sm={12} pr={2} pb={2}>
               <TextField
                 fullWidth
@@ -76,7 +86,12 @@ function Saque() {
                 variant="standard"
               />
             </Grid>
-            <Grid item xs={12} pb={2}>
+            <Grid
+              item
+              xs={12}
+              pb={2}
+              sx={{ display: "flex", justifyContent: "center" }}
+            >
               <Button
                 variant="contained"
                 sx={{
@@ -88,7 +103,7 @@ function Saque() {
                   },
                 }}
               >
-                Sacar
+                Realizar Saque
               </Button>
             </Grid>
           </Grid>

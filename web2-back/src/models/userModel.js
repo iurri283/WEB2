@@ -49,10 +49,18 @@ const insertAccount = async (agConta, numeroConta, saldoConta, idUsuario) => {
   );
 };
 
+const sqlVerificarConta = async (numeroConta) => {
+  return await executeQuery(
+    "SELECT COUNT(*) as count FROM conta WHERE numeroConta = ?",
+    [numeroConta]
+  );
+};
+
 module.exports = {
   getUserByCPF,
   getUserByEmail,
   insertUser,
   getUserIdByCPF,
   insertAccount,
+  sqlVerificarConta,
 };

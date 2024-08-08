@@ -11,6 +11,7 @@ const {
   insertUser,
   getUserIdByCPF,
   insertAccount,
+  sqlVerificarConta,
 } = require("../models/userModel");
 
 const { encryptPassword, comparePassword } = require("../utils/encrypt");
@@ -39,12 +40,8 @@ const registerUser = async (nome, cpf, email, senha) => {
     const n2 = Math.floor(Math.random() * 9) + 1;
     numeroConta = `${n1}-${n2}`;
 
-    const sqlVerificarConta = await executeQuery(
-      "SELECT COUNT(*) as count FROM conta WHERE numeroConta = ?",
-      [numeroConta]
-    );
-
-    if (sqlVerificarConta[0].count == 0) {
+    const sqlVerificarContaTeste = await sqlVerificarConta(numeroConta);
+    if (sqlVerificarContaTeste[0].count == 0) {
       numeroExistente = false;
     }
   }

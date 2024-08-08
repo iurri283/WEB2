@@ -53,7 +53,7 @@ export default function AppFooter() {
                 <Box component="a" href="https://mui.com/" sx={iconStyle}>
                   <FacebookOutlinedIcon fontSize="large" />
                 </Box>
-                <Box component="a" href="https://x.com/MUI_hq" sx={iconStyle}>
+                <Box component="a" href="https://mui.com/" sx={iconStyle}>
                   <InstagramIcon fontSize="large" />
                 </Box>
               </Grid>
