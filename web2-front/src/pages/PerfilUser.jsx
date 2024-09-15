@@ -11,18 +11,41 @@ import {
 } from "@mui/material";
 import { InputCep, InputCpf } from "../components/Mascaras";
 import axios from "axios";
+import { api } from "../utils/api";
 
 const drawerWidth = 240;
 
 function PerfilUser() {
+  const token = localStorage.getItem("token");
+  const [user, setUser] = useState({});
+
   const [cep, setCep] = useState("");
-  const [address, setAddress] = useState({
-    cidade: "",
-    bairro: "",
-    rua: "",
-    numero: "",
-    complemento: "",
-  });
+
+  const handleGetUser = async () => {
+    try {
+      const resposta = await api.get(`user/info`);
+      console.log(resposta);
+      setUser(resposta?.data?.user);
+    } catch (error) {
+      console.error("Erro ao obter dados do usuário:", error);
+    }
+  };
+
+  const handleChangeUserData = async () => {
+    try {
+      const resposta = await api.post(`user/changeInfo`, user);
+      console.log(resposta);
+      setUser(resposta?.data?.user[0]);
+    } catch (error) {
+      console.error("Erro ao atualizar os dados do usuário:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      handleGetUser();
+    }
+  }, [token]);
 
   useEffect(() => {
     const fetchAddress = async () => {
@@ -31,18 +54,22 @@ function PerfilUser() {
           `https://viacep.com.br/ws/${cep}/json/`
         );
         const data = response?.data;
-        setAddress({
-          cidade: data?.localidade || "",
-          bairro: data?.bairro || "",
-          rua: data?.logradouro,
-          numero: "",
-          complemento: "",
-        });
+
+        if (!data.erro) {
+          setUser((prevUser) => ({
+            ...prevUser,
+            cidadeUsuario: data?.localidade || "",
+            bairroUsuario: data?.bairro || "",
+            ruaUsuario: data?.logradouro || "",
+          }));
+        } else {
+          console.log("CEP não encontrado.");
+        }
       } catch (error) {
         console.error("Erro ao buscar o endereço:", error);
       }
     };
-    fetchAddress();
+    if (cep && cep.length === 9) fetchAddress();
   }, [cep]);
 
   const handleCepChange = (event) => {
@@ -120,21 +147,43 @@ function PerfilUser() {
             />
             <Grid item xs={12} sm={12} pr={2} pb={2}>
               <TextField
+                autoFocus
                 fullWidth
                 name="nome"
                 label="Nome"
                 variant="standard"
+                value={user?.nomeUsuario || ""}
+                onChange={(e) =>
+                  setUser((prevUser) => ({
+                    ...prevUser,
+                    nomeUsuario: e.target.value,
+                  }))
+                }
               />
             </Grid>
             <Grid item xs={12} sm={12} pr={2} pb={2}>
-              <InputCpf fullWidth name="cpf" disabled variant="standard" />
+              <InputCpf
+                fullWidth
+                name="cpf"
+                disabled
+                variant="standard"
+                value={user?.cpfUsuario}
+              />
             </Grid>
             <Grid item xs={12} sm={12} pr={2} pb={2}>
               <TextField
+                autoFocus
                 fullWidth
                 name="email"
                 label="Email"
                 variant="standard"
+                value={user?.emailUsuario || ""}
+                onChange={(e) =>
+                  setUser((prevUser) => ({
+                    ...prevUser,
+                    emailUsuario: e.target.value,
+                  }))
+                }
               />
             </Grid>
           </Grid>
@@ -173,7 +222,14 @@ function PerfilUser() {
                 name="cidade"
                 label="Cidade"
                 variant="standard"
-                value={address.cidade}
+                autoFocus
+                value={user?.cidadeUsuario || ""}
+                onChange={(e) =>
+                  setUser((prevUser) => ({
+                    ...prevUser,
+                    cidadeUsuario: e.target.value,
+                  }))
+                }
               />
             </Grid>
             <Grid item xs={12} sm={12} pr={2} pb={2}>
@@ -182,7 +238,14 @@ function PerfilUser() {
                 name="bairro"
                 label="Bairro"
                 variant="standard"
-                value={address.bairro}
+                autoFocus
+                value={user?.bairroUsuario || ""}
+                onChange={(e) =>
+                  setUser((prevUser) => ({
+                    ...prevUser,
+                    bairroUsuario: e.target.value,
+                  }))
+                }
               />
             </Grid>
             <Grid item xs={12} sm={12} pr={2} pb={2}>
@@ -191,7 +254,14 @@ function PerfilUser() {
                 name="rua"
                 label="Rua"
                 variant="standard"
-                value={address.rua}
+                autoFocus
+                value={user?.ruaUsuario || ""}
+                onChange={(e) =>
+                  setUser((prevUser) => ({
+                    ...prevUser,
+                    ruaUsuario: e.target.value,
+                  }))
+                }
               />
             </Grid>
             <Grid item xs={12} sm={12} pr={2} pb={2}>
@@ -200,9 +270,13 @@ function PerfilUser() {
                 name="numero"
                 label="Numero"
                 variant="standard"
-                value={address.numero}
+                autoFocus
+                value={user?.numeroUsuario || ""}
                 onChange={(e) =>
-                  setAddress({ ...address, numero: e.target.value })
+                  setUser((prevUser) => ({
+                    ...prevUser,
+                    numeroUsuario: e.target.value,
+                  }))
                 }
               />
             </Grid>
@@ -212,9 +286,13 @@ function PerfilUser() {
                 name="complemento"
                 label="Complemento"
                 variant="standard"
-                value={address.complemento}
+                autoFocus
+                value={user?.complementoUsuario || ""}
                 onChange={(e) =>
-                  setAddress({ ...address, complemento: e.target.value })
+                  setUser((prevUser) => ({
+                    ...prevUser,
+                    complementoUsuario: e.target.value,
+                  }))
                 }
               />
             </Grid>
@@ -224,6 +302,7 @@ function PerfilUser() {
         <Grid item xs={12} pb={2}>
           <Button
             variant="contained"
+            onClick={handleChangeUserData}
             sx={{
               bgcolor: "white",
               color: "black",

@@ -46,9 +46,9 @@ export default function SideMenu() {
     try {
       const resposta = await api.get(`user/info`);
       console.log(resposta);
-      setName(resposta?.data?.nomeUsuario);
+      setName(resposta?.data?.user?.nomeUsuario);
     } catch (error) {
-      console.error("Erro ao obter dados do crítico:", error);
+      console.error("Erro ao obter dados do usuário:", error);
     }
   };
 

@@ -8,11 +8,30 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import { useEffect, useState } from "react";
+import { api } from "../utils/api";
 
 const drawerWidth = 240;
 
 export default function Home() {
   const token = localStorage.getItem("token");
+  const [account, setAccount] = useState({});
+
+  const handleGetUserAccount = async () => {
+    try {
+      const resposta = await api.get(`user/info`); // retorna nas informações do usuário, sua conta
+      console.log(resposta);
+      setAccount(resposta?.data?.account[0]);
+    } catch (error) {
+      console.error("Erro ao obter dados do usuário:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      handleGetUserAccount();
+    }
+  }, [token]);
 
   return (
     <>
@@ -92,6 +111,7 @@ export default function Home() {
                     label="Agência"
                     variant="standard"
                     autoFocus
+                    value={account?.agConta || "Conta não carregada"}
                     sx={{
                       color: "#008C9E",
                       "& .MuiOutlinedInput-root": {
@@ -118,6 +138,7 @@ export default function Home() {
                     label="Número"
                     variant="standard"
                     autoFocus
+                    value={account?.numeroConta || "Conta não carregada"}
                   />
                 </Grid>
                 <Grid item xs={12} pr={2} pb={2}>
@@ -127,6 +148,7 @@ export default function Home() {
                     name="saldo"
                     label="Saldo"
                     variant="standard"
+                    value={account?.saldoConta || "R$ 0,00"}
                   />
                 </Grid>
               </Grid>

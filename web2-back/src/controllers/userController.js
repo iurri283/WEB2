@@ -7,7 +7,11 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { registerUser, loginUser } = require("../services/userService");
-const { getUserByCPF } = require("../models/userModel");
+const {
+  getUserByCPF,
+  getAccountByUserID,
+  updateUserByID,
+} = require("../models/userModel");
 const privateKey = "20232024";
 
 const login = async (req, res) => {
@@ -53,16 +57,53 @@ const userInfo = async (req, res) => {
   try {
     const { cpf } = req.userInfo; // Obtenha o CPF do token decodificado
     const user = await getUserByCPF(cpf);
+    const account = await getAccountByUserID(user[0].idUsuario);
 
     if (user.length === 0) {
       return res.status(404).json({ mensagem: "Usuário não encontrado!" });
     }
 
-    const { nomeUsuario, emailUsuario } = user[0];
-    res.status(200).json(user[0]);
+    if (account.length === 0) {
+      return res.status(404).json({ mensagem: "Conta não encontrada!" });
+    }
+
+    const DATA = { user: user[0], account: account };
+
+    res.status(200).json(DATA);
   } catch (error) {
     res.status(500).json({ mensagem: "Erro ao obter informações do usuário!" });
   }
 };
 
-module.exports = { login, register, userInfo };
+const changeUserInfo = async (req, res) => {
+  try {
+    const { cpf } = req.userInfo; // Obtenha o CPF do token decodificado
+    const user = await getUserByCPF(cpf);
+
+    if (user.length === 0) {
+      return res.status(404).json({ mensagem: "Usuário não encontrado!" });
+    }
+
+    // console.log(req.body);
+    try {
+      const response = await updateUserByID(user[0].idUsuario, req.body);
+      if (!response.affectedRows) {
+        return res
+          .status(500)
+          .json({ mensagem: "Erro ao atualizar o usuário." });
+      }
+      const userUpdated = await getUserByCPF(cpf);
+      res.status(200).json({
+        titulo: "Sucesso!",
+        message: "Usuário atualizado com sucesso!",
+        user: userUpdated,
+      });
+    } catch (error) {
+      res.status(500).json({ mensagem: "Erro ao tentar atualizar o usuário!" });
+    }
+  } catch (error) {
+    res.status(500).json({ mensagem: "Erro ao obter informações do usuário!" });
+  }
+};
+
+module.exports = { login, register, userInfo, changeUserInfo };

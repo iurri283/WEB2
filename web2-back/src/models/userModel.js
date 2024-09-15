@@ -49,10 +49,44 @@ const insertAccount = async (agConta, numeroConta, saldoConta, idUsuario) => {
   );
 };
 
+const getAccountByUserID = async (ID) => {
+  return await executeQuery(
+    "SELECT * FROM conta WHERE Usuario_Conta_idUsuario = ?",
+    [ID]
+  );
+};
+
 const sqlVerificarConta = async (numeroConta) => {
   return await executeQuery(
     "SELECT COUNT(*) as count FROM conta WHERE numeroConta = ?",
     [numeroConta]
+  );
+};
+
+const updateUserByID = async (ID, DATA) => {
+  return await executeQuery(
+    `UPDATE usuario 
+      SET 
+        nomeUsuario = ?,
+        cpfUsuario = ?,
+        emailUsuario = ?,
+        bairroUsuario = ?,
+        cidadeUsuario = ?,
+        complementoUsuario = ?,
+        numeroUsuario = ?,
+        ruaUsuario = ?
+      WHERE idUsuario = ?`,
+    [
+      DATA?.nomeUsuario,
+      DATA?.cpfUsuario,
+      DATA?.emailUsuario,
+      DATA?.bairroUsuario,
+      DATA?.cidadeUsuario,
+      DATA?.complementoUsuario,
+      DATA?.numeroUsuario,
+      DATA?.ruaUsuario,
+      ID,
+    ]
   );
 };
 
@@ -63,4 +97,6 @@ module.exports = {
   getUserIdByCPF,
   insertAccount,
   sqlVerificarConta,
+  getAccountByUserID,
+  updateUserByID,
 };
