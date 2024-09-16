@@ -11,17 +11,20 @@ import {
 
 import { apiConta } from "../utils/api";
 import { useEffect, useState } from "react";
-import useUserAccount from "../hooks/useUserAccount";
+import useAccount from "../hooks/useAccount";
+import useUser from "../hooks/useUser";
 
 const drawerWidth = 240;
 
 function Deposito() {
   const [reloadPage, setReloadPage] = useState(false);
-  const account = useUserAccount();
+  const user = useUser();
+  const account = useAccount();
+  const [valorDeposito, setValorDeposito] = useState(0);
 
   const realizarDeposito = async () => {
     // pegar o cpf do usuario logado e o valor digitado no textfield
-    const body = { cpf: "987.654.321-09", valor: 1000 };
+    const body = { cpf: user?.cpfUsuario, valor: valorDeposito };
     try {
       const resposta = await apiConta.post(`deposito`, body);
       console.log(resposta);
@@ -112,6 +115,7 @@ function Deposito() {
                 name="deposito"
                 label="Digite o valor a ser depositado"
                 variant="standard"
+                onChange={(e) => setValorDeposito(e.target.value)}
               />
             </Grid>
             <Grid

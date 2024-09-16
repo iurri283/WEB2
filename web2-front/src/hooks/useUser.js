@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 import { api } from "../utils/api";
 
-const useUserAccount = () => {
+const useUser = () => {
   const token = localStorage.getItem("token");
-  const [account, setAccount] = useState({});
+  const [user, setUSer] = useState({});
 
-  const handleGetUserAccount = async () => {
+  const handleGetUser = async () => {
     try {
       const resposta = await api.get(`user/info`); // retorna nas informações do usuário, sua conta
       console.log(resposta);
-      setAccount(resposta?.data?.account[0]);
+      setUSer(resposta?.data?.user);
     } catch (error) {
       console.error("Erro ao obter dados do usuário:", error);
     }
@@ -17,11 +17,11 @@ const useUserAccount = () => {
 
   useEffect(() => {
     if (token) {
-      handleGetUserAccount();
+      handleGetUser();
     }
   }, [token]);
 
-  return account;
+  return user;
 };
 
-export default useUserAccount;
+export default useUser;

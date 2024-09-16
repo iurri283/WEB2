@@ -9,13 +9,13 @@ import {
   Typography,
 } from "@mui/material";
 
-import useUserAccount from "../hooks/useUserAccount";
+import useAccount from "../hooks/useAccount";
 
 const drawerWidth = 240;
 
 export default function Home() {
   const token = localStorage.getItem("token");
-  const account = useUserAccount();
+  const account = useAccount();
 
   return (
     <>

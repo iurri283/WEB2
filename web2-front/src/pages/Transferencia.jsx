@@ -9,12 +9,12 @@ import {
   Typography,
 } from "@mui/material";
 import { InputCpf } from "../components/Mascaras";
-import useUserAccount from "../hooks/useUserAccount";
+import useAccount from "../hooks/useAccount";
 
 const drawerWidth = 240;
 
 function Transferencia() {
-  const account = useUserAccount();
+  const account = useAccount();
   return (
     <Box
       sx={{

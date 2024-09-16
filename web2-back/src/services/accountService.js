@@ -33,6 +33,23 @@ const depositService = async (cpf, valor) => {
   return { message: "Depósito realizado com sucesso", novoSaldo };
 };
 
+const saqueService = async (cpf, valor) => {
+  if (valor <= 0) throw { status: 400, message: "Valor de saque inválido" };
+
+  const user = await getUserByCPF(cpf);
+  if (user.length === 0)
+    throw { status: 404, message: "Usuário não encontrado" };
+
+  const account = await getAccountByUserId(user[0].idUsuario);
+  if (account.length === 0)
+    throw { status: 404, message: "Conta não encontrada" };
+
+  const novoSaldo = parseFloat(account[0].saldoConta) - parseFloat(valor);
+  await updateAccountBalance(account[0].numeroConta, novoSaldo);
+
+  return { message: "Saque realizado com sucesso", novoSaldo };
+};
+
 const transferService = async (cpfOrigem, cpfDestino, valor) => {
   if (valor <= 0)
     throw { status: 400, message: "Valor de transferência inválido" };
@@ -71,4 +88,9 @@ const transferService = async (cpfOrigem, cpfDestino, valor) => {
   };
 };
 
-module.exports = { getBalanceService, depositService, transferService };
+module.exports = {
+  getBalanceService,
+  depositService,
+  saqueService,
+  transferService,
+};

@@ -9,12 +9,36 @@ import {
   Typography,
 } from "@mui/material";
 
-import useUserAccount from "../hooks/useUserAccount";
+import { apiConta } from "../utils/api";
+import { useEffect, useState } from "react";
+import useAccount from "../hooks/useAccount";
+import useUser from "../hooks/useUser";
 
 const drawerWidth = 240;
 
 function Saque() {
-  const account = useUserAccount();
+  const [reloadPage, setReloadPage] = useState(false);
+  const user = useUser();
+  const account = useAccount();
+  const [valorSaque, setValorSaque] = useState(0);
+
+  const realizarSaque = async () => {
+    const body = { cpf: user?.cpfUsuario, valor: valorSaque };
+    try {
+      const resposta = await apiConta.post(`saque`, body);
+      console.log(resposta);
+      setReloadPage(true);
+    } catch (error) {
+      console.error("Erro ao tentar fazer o saque:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (reloadPage) {
+      window.location.reload();
+    }
+  }, [reloadPage]);
+
   return (
     <Box
       sx={{
@@ -90,6 +114,7 @@ function Saque() {
                 name="saque"
                 label="Digite o valor a ser sacado"
                 variant="standard"
+                onChange={(e) => setValorSaque(e.target.value)}
               />
             </Grid>
             <Grid
@@ -108,6 +133,7 @@ function Saque() {
                     color: "black",
                   },
                 }}
+                onClick={() => realizarSaque()}
               >
                 Realizar Saque
               </Button>

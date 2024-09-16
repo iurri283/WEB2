@@ -173,7 +173,7 @@ export default function SideMenu() {
                 <MenuItem>Dados Pessoais</MenuItem>
               </Link>
               <MenuItem onClick={handleExcluirConta}>Excluir Conta</MenuItem>
-              <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
+              <MenuItem onClick={handleSignOut}>Sair</MenuItem>
             </Menu>
           </Box>
         </div>

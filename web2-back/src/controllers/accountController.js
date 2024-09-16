@@ -1,6 +1,7 @@
 const {
   getBalanceService,
   depositService,
+  saqueService,
   transferService,
 } = require("../services/accountService");
 
@@ -24,6 +25,16 @@ const deposit = async (req, res) => {
   }
 };
 
+const saque = async (req, res) => {
+  try {
+    const { cpf, valor } = req.body;
+    const response = await saqueService(cpf, valor);
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(error.status || 500).json({ mensagem: error.message });
+  }
+};
+
 const transfer = async (req, res) => {
   try {
     const { cpfOrigem, cpfDestino, valor } = req.body;
@@ -34,4 +45,4 @@ const transfer = async (req, res) => {
   }
 };
 
-module.exports = { getBalance, deposit, transfer };
+module.exports = { getBalance, deposit, saque, transfer };

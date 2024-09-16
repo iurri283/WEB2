@@ -12,7 +12,7 @@ import {
 import { InputCep, InputCpf } from "../components/Mascaras";
 import axios from "axios";
 import { api } from "../utils/api";
-import useUserAccount from "../hooks/useUserAccount";
+import useUserAccount from "../hooks/useAccount";
 
 const drawerWidth = 240;
 
