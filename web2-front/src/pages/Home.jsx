@@ -8,30 +8,14 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import { api } from "../utils/api";
+
+import useUserAccount from "../hooks/useUserAccount";
 
 const drawerWidth = 240;
 
 export default function Home() {
   const token = localStorage.getItem("token");
-  const [account, setAccount] = useState({});
-
-  const handleGetUserAccount = async () => {
-    try {
-      const resposta = await api.get(`user/info`); // retorna nas informações do usuário, sua conta
-      console.log(resposta);
-      setAccount(resposta?.data?.account[0]);
-    } catch (error) {
-      console.error("Erro ao obter dados do usuário:", error);
-    }
-  };
-
-  useEffect(() => {
-    if (token) {
-      handleGetUserAccount();
-    }
-  }, [token]);
+  const account = useUserAccount();
 
   return (
     <>
@@ -55,7 +39,10 @@ export default function Home() {
           >
             <Toolbar style={{ display: "flex", justifyContent: "end" }}>
               <Typography variant="h6" noWrap component="div">
-                R$ 5000,00
+                {account?.saldoConta?.toLocaleString("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                }) || "R$ 0,00"}
               </Typography>
             </Toolbar>
           </AppBar>
@@ -148,7 +135,12 @@ export default function Home() {
                     name="saldo"
                     label="Saldo"
                     variant="standard"
-                    value={account?.saldoConta || "R$ 0,00"}
+                    value={
+                      account?.saldoConta?.toLocaleString("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                      }) || "R$ 0,00"
+                    }
                   />
                 </Grid>
               </Grid>

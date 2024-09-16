@@ -9,9 +9,12 @@ import {
   Typography,
 } from "@mui/material";
 
+import useUserAccount from "../hooks/useUserAccount";
+
 const drawerWidth = 240;
 
 function Saque() {
+  const account = useUserAccount();
   return (
     <Box
       sx={{
@@ -32,7 +35,10 @@ function Saque() {
       >
         <Toolbar style={{ display: "flex", justifyContent: "end" }}>
           <Typography variant="h6" noWrap component="div">
-            R$ 5000,00
+            {account?.saldoConta?.toLocaleString("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+            }) || "R$ 0,00"}
           </Typography>
         </Toolbar>
       </AppBar>

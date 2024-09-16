@@ -9,9 +9,34 @@ import {
   Typography,
 } from "@mui/material";
 
+import { apiConta } from "../utils/api";
+import { useEffect, useState } from "react";
+import useUserAccount from "../hooks/useUserAccount";
+
 const drawerWidth = 240;
 
 function Deposito() {
+  const [reloadPage, setReloadPage] = useState(false);
+  const account = useUserAccount();
+
+  const realizarDeposito = async () => {
+    // pegar o cpf do usuario logado e o valor digitado no textfield
+    const body = { cpf: "987.654.321-09", valor: 1000 };
+    try {
+      const resposta = await apiConta.post(`deposito`, body);
+      console.log(resposta);
+      setReloadPage(true);
+    } catch (error) {
+      console.error("Erro ao tentar fazer o depósito:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (reloadPage) {
+      window.location.reload();
+    }
+  }, [reloadPage]);
+
   return (
     <Box
       sx={{
@@ -32,7 +57,10 @@ function Deposito() {
       >
         <Toolbar style={{ display: "flex", justifyContent: "end" }}>
           <Typography variant="h6" noWrap component="div">
-            R$ 5000,00
+            {account?.saldoConta?.toLocaleString("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+            }) || "R$ 0,00"}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -102,6 +130,7 @@ function Deposito() {
                     color: "black",
                   },
                 }}
+                onClick={() => realizarDeposito()}
               >
                 Realizar Depósito
               </Button>
