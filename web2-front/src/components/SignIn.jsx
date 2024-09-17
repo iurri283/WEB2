@@ -39,6 +39,7 @@ function Copyright(props) {
 export default function SignIn() {
   const { handleTokenLogin } = useContext(AuthContext);
   const [reloadPage, setReloadPage] = useState(false);
+  const [message, setMessage] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -54,7 +55,15 @@ export default function SignIn() {
         setReloadPage(true);
       }
     } catch (e) {
-      console.log(e);
+      if (
+        e.response?.status === 400 ||
+        e.response?.status === 404 ||
+        e.response?.status === 401
+      ) {
+        setMessage(e.response.data?.mensagem || "Erro ao realizar o login");
+      } else {
+        setMessage("Erro no servidor. Tente novamente mais tarde.");
+      }
     }
   };
 
@@ -149,6 +158,11 @@ export default function SignIn() {
                 </Link>
               </Grid>
             </Grid>
+            {message && (
+              <Typography variant="body2" color="error" align="center">
+                {message}
+              </Typography>
+            )}
           </Box>
         </Box>
         <Copyright sx={{ mt: 2 }} />

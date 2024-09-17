@@ -19,7 +19,6 @@ const dividerColor = "white";
 
 export default function SideMenu() {
   const { pathname } = useLocation();
-  console.log(pathname);
   const { clearToken } = useContext(AuthContext);
   const [menuUser, setMenuUser] = useState(null);
   const [name, setName] = useState("");
@@ -45,7 +44,6 @@ export default function SideMenu() {
   const handleGetUser = async () => {
     try {
       const resposta = await api.get(`user/info`);
-      console.log(resposta);
       setName(resposta?.data?.user?.nomeUsuario);
     } catch (error) {
       console.error("Erro ao obter dados do usuário:", error);

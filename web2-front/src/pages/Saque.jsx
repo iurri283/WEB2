@@ -21,15 +21,19 @@ function Saque() {
   const user = useUser();
   const account = useAccount();
   const [valorSaque, setValorSaque] = useState(0);
+  const [message, setMessage] = useState("");
 
   const realizarSaque = async () => {
     const body = { cpf: user?.cpfUsuario, valor: valorSaque };
     try {
-      const resposta = await apiConta.post(`saque`, body);
-      console.log(resposta);
+      await apiConta.post(`saque`, body);
       setReloadPage(true);
-    } catch (error) {
-      console.error("Erro ao tentar fazer o saque:", error);
+    } catch (e) {
+      if (e.response?.status === 400 || e.response?.status === 404) {
+        setMessage(e.response.data?.mensagem || "Erro ao realizar o saque");
+      } else {
+        setMessage("Erro no servidor. Tente novamente mais tarde.");
+      }
     }
   };
 
@@ -119,9 +123,13 @@ function Saque() {
             </Grid>
             <Grid
               item
-              xs={12}
+              xs={6}
               pb={2}
-              sx={{ display: "flex", justifyContent: "center" }}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                flexDirection: "column",
+              }}
             >
               <Button
                 variant="contained"
@@ -137,6 +145,11 @@ function Saque() {
               >
                 Realizar Saque
               </Button>
+              {message && (
+                <Typography variant="body2" color="error" align="center" mt={2}>
+                  {message}
+                </Typography>
+              )}
             </Grid>
           </Grid>
         </Box>

@@ -8,7 +8,6 @@ const useUser = () => {
   const handleGetUser = async () => {
     try {
       const resposta = await api.get(`user/info`); // retorna nas informações do usuário, sua conta
-      console.log(resposta);
       setUSer(resposta?.data?.user);
     } catch (error) {
       console.error("Erro ao obter dados do usuário:", error);

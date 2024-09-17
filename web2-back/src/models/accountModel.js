@@ -25,10 +25,10 @@ const getAccountByUserId = async (userId) => {
   );
 };
 
-const updateAccountBalance = async (numeroConta, novoSaldo) => {
+const updateAccountBalance = async (idConta, novoSaldo) => {
   return await executeQuery(
-    "UPDATE conta SET saldoConta = ? WHERE numeroConta = ?",
-    [novoSaldo, numeroConta]
+    "UPDATE conta SET saldoConta = ? WHERE idConta = ?",
+    [novoSaldo, idConta]
   );
 };
 

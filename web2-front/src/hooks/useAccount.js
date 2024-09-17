@@ -8,7 +8,6 @@ const useAccount = () => {
   const handleGetAccount = async () => {
     try {
       const resposta = await api.get(`user/info`); // retorna nas informações do usuário, sua conta
-      console.log(resposta);
       setAccount(resposta?.data?.account[0]);
     } catch (error) {
       console.error("Erro ao obter dados do usuário:", error);

@@ -21,16 +21,20 @@ function Deposito() {
   const user = useUser();
   const account = useAccount();
   const [valorDeposito, setValorDeposito] = useState(0);
+  const [message, setMessage] = useState("");
 
   const realizarDeposito = async () => {
     // pegar o cpf do usuario logado e o valor digitado no textfield
     const body = { cpf: user?.cpfUsuario, valor: valorDeposito };
     try {
-      const resposta = await apiConta.post(`deposito`, body);
-      console.log(resposta);
+      await apiConta.post(`deposito`, body);
       setReloadPage(true);
-    } catch (error) {
-      console.error("Erro ao tentar fazer o depósito:", error);
+    } catch (e) {
+      if (e.response?.status === 400 || e.response?.status === 404) {
+        setMessage(e.response.data?.mensagem || "Erro ao realizar o saque");
+      } else {
+        setMessage("Erro no servidor. Tente novamente mais tarde.");
+      }
     }
   };
 
@@ -120,9 +124,13 @@ function Deposito() {
             </Grid>
             <Grid
               item
-              xs={12}
+              xs={6}
               pb={2}
-              sx={{ display: "flex", justifyContent: "center" }}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                flexDirection: "column",
+              }}
             >
               <Button
                 variant="contained"
@@ -138,6 +146,11 @@ function Deposito() {
               >
                 Realizar Depósito
               </Button>
+              {message && (
+                <Typography variant="body2" color="error" align="center" mt={2}>
+                  {message}
+                </Typography>
+              )}
             </Grid>
           </Grid>
         </Box>

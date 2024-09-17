@@ -84,7 +84,6 @@ const changeUserInfo = async (req, res) => {
       return res.status(404).json({ mensagem: "Usuário não encontrado!" });
     }
 
-    // console.log(req.body);
     try {
       const response = await updateUserByID(user[0].idUsuario, req.body);
       if (!response.affectedRows) {

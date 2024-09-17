@@ -20,13 +20,12 @@ function PerfilUser() {
   const token = localStorage.getItem("token");
   const [user, setUser] = useState({});
   const account = useUserAccount();
-
   const [cep, setCep] = useState("");
+  const [message, setMessage] = useState("");
 
   const handleGetUser = async () => {
     try {
       const resposta = await api.get(`user/info`);
-      console.log(resposta);
       setUser(resposta?.data?.user);
     } catch (error) {
       console.error("Erro ao obter dados do usuário:", error);
@@ -36,7 +35,6 @@ function PerfilUser() {
   const handleChangeUserData = async () => {
     try {
       const resposta = await api.post(`user/changeInfo`, user);
-      console.log(resposta);
       setUser(resposta?.data?.user[0]);
     } catch (error) {
       console.error("Erro ao atualizar os dados do usuário:", error);
@@ -64,14 +62,15 @@ function PerfilUser() {
             bairroUsuario: data?.bairro || "",
             ruaUsuario: data?.logradouro || "",
           }));
+          setMessage("");
         } else {
-          console.log("CEP não encontrado.");
+          setMessage("CEP não encontrado.");
         }
       } catch (error) {
-        console.error("Erro ao buscar o endereço:", error);
+        setMessage("Erro ao buscar o endereço:" + error);
       }
     };
-    if (cep && cep.length === 9) fetchAddress();
+    if (cep && cep[8] !== "_" && !isNaN(cep[8]) && isNaN(cep)) fetchAddress();
   }, [cep]);
 
   const handleCepChange = (event) => {
@@ -301,6 +300,11 @@ function PerfilUser() {
                 }
               />
             </Grid>
+            {message && (
+              <Typography variant="body2" color="error" align="center">
+                {message}
+              </Typography>
+            )}
           </Grid>
         </Box>
 

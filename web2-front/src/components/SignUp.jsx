@@ -53,7 +53,6 @@ export default function SignUp() {
       }
     } catch (e) {
       if (e.response?.status === 400) {
-        console.log(e);
         setMessage(e.response.data?.mensagem || "Erro no cadastro");
       } else {
         setMessage("Erro no servidor. Tente novamente mais tarde.");

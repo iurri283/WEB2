@@ -28,7 +28,7 @@ const depositService = async (cpf, valor) => {
     throw { status: 404, message: "Conta não encontrada" };
 
   const novoSaldo = parseFloat(account[0].saldoConta) + parseFloat(valor);
-  await updateAccountBalance(account[0].numeroConta, novoSaldo);
+  await updateAccountBalance(account[0].idConta, novoSaldo);
 
   return { message: "Depósito realizado com sucesso", novoSaldo };
 };
@@ -45,7 +45,9 @@ const saqueService = async (cpf, valor) => {
     throw { status: 404, message: "Conta não encontrada" };
 
   const novoSaldo = parseFloat(account[0].saldoConta) - parseFloat(valor);
-  await updateAccountBalance(account[0].numeroConta, novoSaldo);
+  if (novoSaldo < 0)
+    throw { status: 404, message: "Valor do saque maior que o saldo." };
+  await updateAccountBalance(account[0].idConta, novoSaldo);
 
   return { message: "Saque realizado com sucesso", novoSaldo };
 };
@@ -78,8 +80,8 @@ const transferService = async (cpfOrigem, cpfDestino, valor) => {
   const novoSaldoDestino =
     parseFloat(accountDestino[0].saldoConta) + parseFloat(valor);
 
-  await updateAccountBalance(accountOrigem[0].numeroConta, novoSaldoOrigem);
-  await updateAccountBalance(accountDestino[0].numeroConta, novoSaldoDestino);
+  await updateAccountBalance(accountOrigem[0].idConta, novoSaldoOrigem);
+  await updateAccountBalance(accountDestino[0].idConta, novoSaldoDestino);
 
   return {
     message: "Transferência realizada com sucesso",

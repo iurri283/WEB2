@@ -41,6 +41,7 @@ export function InputCep(props) {
       fullWidth
       label="CEP"
       id="cep"
+      valueIsNumericString
       {...props}
     />
   );
