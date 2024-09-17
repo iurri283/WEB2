@@ -12,12 +12,14 @@ import {
 import { InputCep, InputCpf } from "../components/Mascaras";
 import axios from "axios";
 import { api } from "../utils/api";
+import useUserAccount from "../hooks/useAccount";
 
 const drawerWidth = 240;
 
 function PerfilUser() {
   const token = localStorage.getItem("token");
   const [user, setUser] = useState({});
+  const account = useUserAccount();
 
   const [cep, setCep] = useState("");
 
@@ -96,7 +98,10 @@ function PerfilUser() {
       >
         <Toolbar style={{ display: "flex", justifyContent: "end" }}>
           <Typography variant="h6" noWrap component="div">
-            R$ 5000,00
+            {account?.saldoConta?.toLocaleString("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+            }) || "R$ 0,00"}
           </Typography>
         </Toolbar>
       </AppBar>
