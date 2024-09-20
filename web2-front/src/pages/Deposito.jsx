@@ -24,6 +24,7 @@ function Deposito() {
   const [message, setMessage] = useState("");
 
   const realizarDeposito = async () => {
+    if (isNaN(valorDeposito)) return setMessage("Valor não numérico!");
     // pegar o cpf do usuario logado e o valor digitado no textfield
     const body = { cpf: user?.cpfUsuario, valor: valorDeposito };
     try {

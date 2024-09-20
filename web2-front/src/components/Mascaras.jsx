@@ -26,6 +26,7 @@ export function InputCpf(props) {
       fullWidth
       label="CPF"
       id="cpf"
+      valueIsNumericString
       {...props}
     />
   );

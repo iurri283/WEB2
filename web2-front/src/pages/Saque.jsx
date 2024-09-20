@@ -24,6 +24,7 @@ function Saque() {
   const [message, setMessage] = useState("");
 
   const realizarSaque = async () => {
+    if (isNaN(valorSaque)) return setMessage("Valor não numérico!");
     const body = { cpf: user?.cpfUsuario, valor: valorSaque };
     try {
       await apiConta.post(`saque`, body);
@@ -118,6 +119,7 @@ function Saque() {
                 name="saque"
                 label="Digite o valor a ser sacado"
                 variant="standard"
+                valueIsNumericString
                 onChange={(e) => setValorSaque(e.target.value)}
               />
             </Grid>

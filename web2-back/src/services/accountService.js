@@ -53,10 +53,17 @@ const saqueService = async (cpf, valor) => {
 };
 
 const transferService = async (cpfOrigem, cpfDestino, valor) => {
+  if (cpfOrigem === cpfDestino)
+    throw {
+      status: 400,
+      message: "Não se pode realizar transferência para a mesma conta!",
+    };
+
   if (valor <= 0)
     throw { status: 400, message: "Valor de transferência inválido" };
 
   const userOrigem = await getUserByCPF(cpfOrigem);
+
   if (userOrigem.length === 0)
     throw { status: 404, message: "Usuário de origem não encontrado" };
 

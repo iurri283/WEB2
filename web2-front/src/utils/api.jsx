@@ -33,4 +33,20 @@ api.interceptors.request.use(
   }
 );
 
+apiConta.interceptors.request.use(
+  function (config) {
+    // Obter o token do armazenamento local, ou de onde você o obtém
+    const token = localStorage.getItem("token");
+    if (token) {
+      // Se o token existir, adicione-o aos cabeçalhos de autorização
+      config.headers.Authorization = ` Bearer ${token}`;
+    }
+    return config;
+  },
+  function (erro) {
+    // Se ocorrer um erro com a solicitação, retorne um Promessa rejeitada
+    return Promise.reject(erro);
+  }
+);
+
 export { api, apiConta };

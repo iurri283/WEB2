@@ -10,11 +10,40 @@ import {
 } from "@mui/material";
 import { InputCpf } from "../components/Mascaras";
 import useAccount from "../hooks/useAccount";
+import { useEffect, useState } from "react";
+import { apiConta } from "../utils/api";
 
 const drawerWidth = 240;
 
 function Transferencia() {
   const account = useAccount();
+  const [reloadPage, setReloadPage] = useState(false);
+  const [valorTransferencia, setValorTransferencia] = useState(0);
+  const [cpfDestino, setCpfDestino] = useState("");
+  const [message, setMessage] = useState("");
+
+  const realizarTransferencia = async () => {
+    if (isNaN(valorTransferencia)) return setMessage("Valor não numérico!");
+    // pegar o cpf do usuario logado e o valor digitado no textfield
+    const body = { cpfDestino: cpfDestino, valor: valorTransferencia };
+    try {
+      await apiConta.post(`transferencia`, body);
+      setReloadPage(true);
+    } catch (e) {
+      if (e.response?.status === 400 || e.response?.status === 404) {
+        setMessage(e.response.data?.mensagem || "Erro ao realizar o saque");
+      } else {
+        setMessage("Erro no servidor. Tente novamente mais tarde.");
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (reloadPage) {
+      window.location.reload();
+    }
+  }, [reloadPage]);
+
   return (
     <Box
       sx={{
@@ -90,6 +119,7 @@ function Transferencia() {
                 name="cpf"
                 variant="standard"
                 autoFocus
+                onChange={(e) => setCpfDestino(e.target.value)}
               />
             </Grid>
             <Grid item xs={12} pb={2} pr={2}>
@@ -98,13 +128,18 @@ function Transferencia() {
                 name="valorTransferencia"
                 label="Digite o valor a ser transferido"
                 variant="standard"
+                onChange={(e) => setValorTransferencia(e.target.value)}
               />
             </Grid>
             <Grid
               item
-              xs={12}
+              xs={6}
               pb={2}
-              sx={{ display: "flex", justifyContent: "center" }}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                flexDirection: "column",
+              }}
             >
               <Button
                 variant="contained"
@@ -116,9 +151,15 @@ function Transferencia() {
                     color: "black",
                   },
                 }}
+                onClick={realizarTransferencia}
               >
                 Realizar Transferência
               </Button>
+              {message && (
+                <Typography variant="body2" color="error" align="center" mt={2}>
+                  {message}
+                </Typography>
+              )}
             </Grid>
           </Grid>
         </Box>
