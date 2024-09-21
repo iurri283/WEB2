@@ -9,6 +9,7 @@ import SideMenu from "../components/SideMenu";
 import Transferencia from "../pages/Transferencia";
 import Saque from "../pages/Saque";
 import Deposito from "../pages/Deposito";
+import Extrato from "../pages/Extrato";
 
 // eslint-disable-next-line react/prop-types
 function Layout({ children }) {
@@ -57,6 +58,14 @@ export function MyRouter() {
             element={
               <Layout>
                 <Deposito />
+              </Layout>
+            }
+          />
+          <Route
+            path="/extrato"
+            element={
+              <Layout>
+                <Extrato />
               </Layout>
             }
           />

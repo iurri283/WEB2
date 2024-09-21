@@ -18,6 +18,7 @@ const getBalance = async (req, res) => {
 const deposit = async (req, res) => {
   try {
     const { cpf, valor } = req.body;
+
     const response = await depositService(cpf, valor);
     res.status(200).json(response);
   } catch (error) {
@@ -39,7 +40,9 @@ const transfer = async (req, res) => {
   const { cpf } = req.userInfo;
   try {
     const { cpfDestino, valor } = req.body;
+
     const response = await transferService(cpf, cpfDestino, valor);
+
     res.status(200).json(response);
   } catch (error) {
     res.status(error.status || 500).json({ mensagem: error.message });

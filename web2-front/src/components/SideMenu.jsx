@@ -7,6 +7,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { GiMoneyStack, GiPayMoney, GiReceiveMoney } from "react-icons/gi";
+import { IoDocumentTextOutline } from "react-icons/io5";
 import { Button, Menu, MenuItem, Tooltip } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/authContext";
@@ -132,6 +133,18 @@ export default function SideMenu() {
                 <GiMoneyStack size={32} />
               </ListItemIcon>
               <ListItemText primary={"Depósito"} sx={{ color: textColor }} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem key={"Extrato"} disablePadding>
+            <ListItemButton
+              component={Link}
+              to="/extrato"
+              selected={pathname === "/extrato"}
+            >
+              <ListItemIcon sx={{ color: iconColor }}>
+                <IoDocumentTextOutline size={32} />
+              </ListItemIcon>
+              <ListItemText primary={"Extrato"} sx={{ color: textColor }} />
             </ListItemButton>
           </ListItem>
         </List>

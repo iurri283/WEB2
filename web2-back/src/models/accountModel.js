@@ -32,8 +32,16 @@ const updateAccountBalance = async (idConta, novoSaldo) => {
   );
 };
 
+const insertTransaction = async (tipo, valor, remetente, destinatario) => {
+  return await executeQuery(
+    "INSERT INTO transacao (tipoTransacao, valorTransacao, conta_idConta, contaDestino_idConta) VALUES (?, ?, ?, ?)",
+    [tipo, valor, remetente, destinatario]
+  );
+};
+
 module.exports = {
   getUserByCPF,
   getAccountByUserId,
   updateAccountBalance,
+  insertTransaction,
 };
