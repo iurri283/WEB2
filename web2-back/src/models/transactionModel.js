@@ -19,6 +19,14 @@ const getTransactions = async (idConta) => {
   );
 };
 
+const getOtherAccount = async (idConta) => {
+  return await executeQuery(
+    "select nomeUsuario from usuario,conta where conta.idConta = ? and idUsuario = conta.Usuario_Conta_idUsuario;",
+    [idConta]
+  );
+};
+
 module.exports = {
   getTransactions,
+  getOtherAccount,
 };

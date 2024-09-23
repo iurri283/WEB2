@@ -1,6 +1,9 @@
 const { getAccountByUserId } = require("../models/accountModel");
 const { getUserByCPF } = require("../models/userModel");
-const { getTransactions } = require("../models/transactionModel");
+const {
+  getTransactions,
+  getOtherAccount,
+} = require("../models/transactionModel");
 
 const getTransactionService = async (cpf) => {
   let user, account, transactions;
@@ -25,6 +28,19 @@ const getTransactionService = async (cpf) => {
   return transactions;
 };
 
+const getNomeService = async (idConta) => {
+  let account;
+
+  try {
+    account = await getOtherAccount(idConta);
+  } catch (e) {
+    throw "Erro ao buscar a conta de destino: " + e.toString();
+  }
+
+  return account;
+};
+
 module.exports = {
   getTransactionService,
+  getNomeService,
 };
