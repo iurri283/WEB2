@@ -90,6 +90,10 @@ const updateUserByID = async (ID, DATA) => {
   );
 };
 
+// const deleteUserByCPF = async (cpf) => {
+//   return await executeQuery("delete FROM usuario WHERE cpfUsuario = ?", [cpf]);
+// };
+
 module.exports = {
   getUserByCPF,
   getUserByEmail,
@@ -99,4 +103,5 @@ module.exports = {
   sqlVerificarConta,
   getAccountByUserID,
   updateUserByID,
+  // deleteUserByCPF,
 };

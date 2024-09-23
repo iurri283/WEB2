@@ -33,9 +33,25 @@ export default function SideMenu() {
     setMenuUser(null);
   };
 
-  const handleExcluirConta = () => {
-    console.log("excluir conta");
-  };
+  // const excluirConta = async () => {
+  //   try {
+  //     const resposta = await api.get(`user/delete`);
+  //     setName(resposta?.data?.user?.nomeUsuario);
+  //   } catch (error) {
+  //     console.error("Erro ao obter dados do usuário:", error);
+  //   }
+  // };
+
+  // const handleExcluirConta = async () => {
+  //   const resposta = await excluirConta();
+  //   console.log(resposta);
+  //   if (resposta?.status === 200) {
+  //     clearToken();
+  //     window.location.href = "/login";
+  //   } else {
+  //     alert("Erro ao excluir a conta");
+  //   }
+  // };
 
   const handleSignOut = () => {
     clearToken();
@@ -183,7 +199,7 @@ export default function SideMenu() {
               <Link to="/dadosPessoais" style={{ color: "#242424" }}>
                 <MenuItem>Dados Pessoais</MenuItem>
               </Link>
-              <MenuItem onClick={handleExcluirConta}>Excluir Conta</MenuItem>
+              {/* <MenuItem onClick={handleExcluirConta}>Excluir Conta</MenuItem> */}
               <MenuItem onClick={handleSignOut}>Sair</MenuItem>
             </Menu>
           </Box>

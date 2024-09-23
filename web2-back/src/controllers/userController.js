@@ -11,6 +11,7 @@ const {
   getUserByCPF,
   getAccountByUserID,
   updateUserByID,
+  deleteUserByCPF,
 } = require("../models/userModel");
 const privateKey = "20232024";
 
@@ -26,7 +27,7 @@ const login = async (req, res) => {
     const senhaIguais = await bcrypt.compare(senha, user.senhaUsuario);
 
     if (!senhaIguais) {
-      return res.status(401).json({ mensagem: "Senha incorreta" });
+      return res.status(404).json({ mensagem: "Senha incorreta" });
     }
 
     jwt.sign({ cpf }, privateKey, (err, token) => {
@@ -104,5 +105,15 @@ const changeUserInfo = async (req, res) => {
     res.status(500).json({ mensagem: "Erro ao obter informações do usuário!" });
   }
 };
+
+// const deleteUser = async (req, res) => {
+//   const { cpf } = req.userInfo;
+//   try {
+//     deleteUserByCPF(cpf);
+//     res.status(200).json({"title": "Sucesso!", "message": "Usuario excluido com sucesso!"});
+//   } catch (e) {
+//     res.status(500).json({ mensagem: "Erro ao deletar usuário!" });
+//   }
+// };
 
 module.exports = { login, register, userInfo, changeUserInfo };
